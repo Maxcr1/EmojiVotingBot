@@ -34,10 +34,10 @@ class HistoryManager:
             if channel.name == "server-announcements":
                 server_announcements = channel
 
-        # print("MESSAGE COUNT: ", self.message_count)
-        # self.sort_reactions()
-        # self.print_reaction_data()
-        # await self.send_reaction_data(server_announcements)
+        print("MESSAGE COUNT: ", self.message_count)
+        self.sort_reactions()
+        self.print_reaction_data()
+        await self.send_reaction_data(server_announcements)
         self.print_reaction_dictionary()
 
     async def analyze_channel_history(self, channel: discord.TextChannel):
@@ -46,7 +46,7 @@ class HistoryManager:
         async for message in channel.history(limit=None, after=one_month_ago):
             self.message_count += 1
             for reaction in message.reactions:
-                await self.database.addReaction(reaction)
+                self.update_reaction(reaction)
         print(getTimeStamp(), "Successfully analyzed", channel.name)
 
     def update_reaction(self, react: discord.Reaction):
